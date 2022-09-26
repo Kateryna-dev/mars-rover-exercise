@@ -11,7 +11,7 @@ namespace MarsService.Models
         private static int count;
 
         public int Id { get { return _id; } }
-        public Position GetPosition() => this._currentPosition;
+        public Position GetPosition() => _currentPosition;
 
         public Rover(Position roverPosition, IPlateau iplateau)
         {
@@ -59,13 +59,13 @@ namespace MarsService.Models
 
         private bool SpinLeft()
         {
-            this._currentPosition.DecrementDirection();
+            _currentPosition.DecrementDirection();
             return true;
         }
 
         private bool SpinRight() 
         {
-            this._currentPosition.IncrementDirection();
+            _currentPosition.IncrementDirection();
             return true;
         }
     }
