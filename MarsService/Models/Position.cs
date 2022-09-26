@@ -10,6 +10,10 @@ namespace MarsService.Models
         public CardinalDirection Orientation { get; set; }
         //public int PlateauId;
 
+        public Position() : this(new Point(0, 0), CardinalDirection.North) 
+        {
+        }
+
         public Position(Point point, CardinalDirection orientation)
         {
             Coordinate = point;
