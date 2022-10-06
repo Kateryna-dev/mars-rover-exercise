@@ -37,7 +37,13 @@ namespace MarsService.Models
             CardinalDirection.North => new Point(Coordinate.X, Coordinate.Y+1),
             CardinalDirection.East => new Point(Coordinate.X+1, Coordinate.Y),
             CardinalDirection.South => new Point(Coordinate.X, Coordinate.Y-1),
-            CardinalDirection.West => new Point(Coordinate.X-1, Coordinate.Y)
+            CardinalDirection.West => new Point(Coordinate.X-1, Coordinate.Y),
+            _ => throw new NotImplementedException()
         };
+
+        public override string ToString()
+        {
+            return $"{this.Coordinate.X.ToString()} {this.Coordinate.Y.ToString()} {this.Orientation.ToString().First()}";
+        }
     }
 }

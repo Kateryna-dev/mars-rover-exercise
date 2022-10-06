@@ -14,9 +14,9 @@ namespace MarsService.Models
         public Plateau(Point point)
         {
             _topRightCoordinate = point;
-            _mapMatrix = new bool[point.X, point.Y];
-            for (int i = 0; i < _topRightCoordinate.X ; i++)
-                for (int j = 0; j< _topRightCoordinate.Y; j++)
+            _mapMatrix = new bool[point.X+1, point.Y+1];
+            for (int i = 0; i <= _topRightCoordinate.X ; i++)
+                for (int j = 0; j <= _topRightCoordinate.Y; j++)
                     _mapMatrix[i,j] = true;
             _id = count++;
         }

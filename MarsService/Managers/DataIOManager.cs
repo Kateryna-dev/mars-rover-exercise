@@ -14,10 +14,31 @@ namespace MarsService.Managers
         {
         }
 
-        public bool ProcessData(string[] inputs)
+        public bool ProcessInputData(string[] inputs, out Point plateauSize, out List<Position> roversPositionsList, 
+            out List<RoverInstruction[]> roverInstructionSetList)
         {
-            //if (inputs == null || inputs.Length < 3)
-            //    return false;
+
+            plateauSize = new Point();
+            roversPositionsList = new();
+            roverInstructionSetList = new();
+
+            if (inputs == null || inputs.Length % 2 == 0 || inputs.Length < MIN_NUMBER_OF_STRING_IN_INPUT)
+                return false;
+
+            if (!TryParsePlateauSizeString(inputs[0], out plateauSize))
+                return false;
+
+            for (int i = 1; i < inputs.Length - 1; i++)
+            {
+                if (!TryParseRoverPositionString(inputs[i], out Position position) ||
+                    !TryParseRoverInstructionsString(inputs[i + 1], out RoverInstruction[] roverInstructions))
+                    return false;
+
+                roversPositionsList.Add(position);
+                roverInstructionSetList.Add(roverInstructions);
+                i++;
+            }
+
             return true;
         }
 
@@ -32,14 +53,45 @@ namespace MarsService.Managers
             if (plateauArr.Length != NUMBER_OF_WORDS_IN_SIZE_INPUT)
                 return false;
 
-            int x, y;
-            if (!Int32.TryParse(plateauArr[0], out x) || !Int32.TryParse(plateauArr[1], out y))
+            return TryParseCoordinates(plateauArr, out point);
+        }
+
+
+        internal bool TryParseCoordinates(string[] coordinateSubstrings, out Point point) 
+        {
+            point = new Point(0, 0);
+            if (coordinateSubstrings == null)
                 return false;
 
-            if (x <= 0 || y <= 0) 
+            int x, y;
+            if (!Int32.TryParse(coordinateSubstrings[0], out x) || !Int32.TryParse(coordinateSubstrings[1], out y))
+                return false;
+
+            if (x <= 0 || y <= 0)
                 return false;
 
             point = new Point(x, y);
+            return true;
+        }
+
+        internal bool TryParseRoverPositionString(string positionString, out Position position)
+        {
+            Point point = new Point(0, 0);
+            CardinalDirection direction = CardinalDirection.North;
+            position = new Position();
+
+            if (string.IsNullOrWhiteSpace(positionString))
+                return false;
+
+            string[] roverPosition = positionString.Split();
+            if (roverPosition.Length != NUMBER_OF_WORDS_IN_POSITION_INPUT)
+                return false;
+
+            if (!TryParseCoordinates(roverPosition, out point)
+                || !TryGetDirectionFromSubString(roverPosition[2], out direction))
+                return false;
+
+            position = new Position(point, direction);
             return true;
         }
 
@@ -62,30 +114,6 @@ namespace MarsService.Managers
             return dir.HasValue;
         }
 
-        internal bool TryParseRoverPositionString(string positionString, out Position position)
-        {
-            position = new Position();
-
-            if (string.IsNullOrWhiteSpace(positionString))
-                return false;
-
-            string[] roverPosition = positionString.Split();
-            if (roverPosition.Length != NUMBER_OF_WORDS_IN_POSITION_INPUT)
-                return false;
-
-            int x, y;
-            if (!Int32.TryParse(roverPosition[0], out x) || !Int32.TryParse(roverPosition[1], out y))
-                return false;
-
-            if (x <= 0 || y <= 0)
-                return false;
-
-            if (!TryGetDirectionFromSubString(roverPosition[2], out CardinalDirection direction))
-                return false;
-
-            position = new Position(new Point(x, y), direction);
-            return true;
-        }
 
         internal bool TryParseRoverInstructionsString(string instructionsString, out RoverInstruction[] roverInstructions)
         {

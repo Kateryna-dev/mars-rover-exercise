@@ -12,35 +12,10 @@ namespace MarsService.Models
         public RoverInstruction[] Instructions { get; private set; }
         public CommandStatus Status { get; set; }
 
-        public Command() 
-        {
-        }
-
         public Command(RoverInstruction[] instructions)
         {
             this.Instructions = instructions;
             this.Status = CommandStatus.Non;
         }
-
-
-        //internal RoverInstruction[] GenerateInstructionsFromString(string sequence)
-        //{
-        //    //Add sequence check
-        //    char[] sequenceArray = sequence.ToCharArray();
-        //    RoverInstruction[] roverInstructions = new RoverInstruction[sequenceArray.Length];
-        //    RoverInstruction instruction;
-
-        //    for (int i = 0; i < sequenceArray.Length; i++)
-        //    {
-        //        instruction = sequenceArray[i] switch
-        //        {
-        //            'L' => RoverInstruction.L,
-        //            'R' => RoverInstruction.R,
-        //            'M' => RoverInstruction.M
-        //        };
-        //        roverInstructions[i] = instruction;
-        //    }
-        //    return roverInstructions;
-        //}
     }
 }

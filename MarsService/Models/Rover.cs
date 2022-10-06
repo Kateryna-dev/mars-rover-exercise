@@ -41,7 +41,8 @@ namespace MarsService.Models
         {
             RoverInstruction.L => SpinLeft(),
             RoverInstruction.R => SpinRight(),
-            RoverInstruction.M => Move()
+            RoverInstruction.M => Move(),
+            _ => throw new NotImplementedException()
         };
 
         internal bool Move() 

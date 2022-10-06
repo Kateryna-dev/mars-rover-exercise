@@ -1,0 +1,8 @@
+{
+  "profiles": {
+    "MarsService": {
+      "commandName": "Project",
+      "commandLineArgs": "\"5 5\"\r\n\"1 2 N\"\r\nLMLMLMLMM\r\n\"3 3 E\"\r\nMMRMMRMRRM"
+    }
+  }
+}
